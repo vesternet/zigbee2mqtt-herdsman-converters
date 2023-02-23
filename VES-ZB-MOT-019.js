@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['HK-ZCC-A'],
+	fingerprint: [{modelID: 'HK-ZCC-A', softwareBuildID: '2.5.3_r48'}],
         model: 'VES-ZB-MOT-019',
         vendor: 'Vesternet',
         description: 'Zigbee Motor Controller',

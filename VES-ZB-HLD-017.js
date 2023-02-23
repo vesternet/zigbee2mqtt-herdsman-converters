@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['ON/OFF -M'],
+	fingerprint: [{modelID: 'ON/OFF -M', softwareBuildID: '2.9.2_r54'}],
         model: 'VES-ZB-HLD-017',
         vendor: 'Vesternet',
         description: 'Zigbee High Load Switch',

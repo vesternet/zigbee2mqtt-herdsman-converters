@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['HK-SL-DIM-A'],
+	fingerprint: [{modelID: 'HK-SL-DIM-A', softwareBuildID: '2.5.3_r52'}],
         model: 'VES-ZB-DIM-004',
         vendor: 'Vesternet',
         description: 'Zigbee Dimmer',

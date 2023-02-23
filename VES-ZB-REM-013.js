@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['ZGRC-KEY-013'],
+	fingerprint: [{modelID: 'ZGRC-KEY-013', softwareBuildID: '2.5.3_r20'}],
         model: 'VES-ZB-REM-013',
         vendor: 'Vesternet',
         description: 'Zigbee Remote Control - 12 Button',

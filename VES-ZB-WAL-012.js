@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['ZG2833K8_EU05'],
+	fingerprint: [{modelID: 'ZG2833K8_EU05', softwareBuildID: '2.5.3_r20'}],
         model: 'VES-ZB-WAL-012',
         vendor: 'Vesternet',
         description: 'Zigbee Wall Controller - 8 Button',

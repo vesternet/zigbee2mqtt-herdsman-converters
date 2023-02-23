@@ -8,7 +8,7 @@ const ea = exposes.access;
 
 
 const definition = {
-        zigbeeModel: ['HK-SL-RELAY-A'],
+	fingerprint: [{modelID: 'HK-SL-RELAY-A', softwareBuildID: '2.5.3_r47'}],
         model: 'VES-ZB-SWI-005',
         vendor: 'Vesternet',
         description: 'Zigbee Switch',
