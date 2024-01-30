@@ -8,20 +8,20 @@ const ea = exposes.access;
 
 
 const definition = {
-	fingerprint: [{modelID: 'HK-ZCC-A', softwareBuildID: '2.5.3_r48'}],
-        model: 'VES-ZB-MOT-019',
-        vendor: 'Vesternet',
-        description: 'Zigbee Motor Controller',
-        fromZigbee: [fz.cover_position_tilt, fz.ignore_genOta],
-        toZigbee: [tz.cover_state, tz.cover_position_tilt],
-        exposes: [e.cover_position()],
-        whiteLabel: [{vendor: 'Sunricher', model: 'SR-ZG9080A'}],
-	meta: {coverInverted: true},
-        configure: async (device, coordinatorEndpoint, logger) => {
-            const endpoint = device.getEndpoint(1);
-	    await reporting.bind(endpoint, coordinatorEndpoint, ['closuresWindowCovering']);
-            await reporting.currentPositionLiftPercentage(endpoint);
-        },
-    };
+    fingerprint: [{modelID: 'HK-ZCC-A', softwareBuildID: '2.5.3_r48'}],
+    model: 'VES-ZB-MOT-019',
+    vendor: 'Vesternet',
+    description: 'Zigbee motor controller',
+    fromZigbee: [fz.cover_position_tilt, fz.ignore_genOta],
+    toZigbee: [tz.cover_state, tz.cover_position_tilt],
+    exposes: [e.cover_position()],
+    whiteLabel: [{vendor: 'Sunricher', model: 'SR-ZG9080A'}],
+    meta: {coverInverted: true},
+    configure: async (device, coordinatorEndpoint, logger) => {
+        const endpoint = device.getEndpoint(1);
+        await reporting.bind(endpoint, coordinatorEndpoint, ['closuresWindowCovering']);
+        await reporting.currentPositionLiftPercentage(endpoint);
+    },
+};
 
 module.exports = definition;
