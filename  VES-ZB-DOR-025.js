@@ -9,7 +9,7 @@ const ea = exposes.access;
 
 const definition = {
         fingerprint: [{modelID: 'DoorSensor-ZB3.0', softwareBuildID: '2.01'}, {modelID: 'DoorSensor-ZB3.0', softwareBuildID: '2.1'}, {modelID: 'DoorSensor-ZB3.0', softwareBuildID: '2.03'}, {modelID: 'DoorSensor-ZB3.0', softwareBuildID: '2.04'}],
-        model: 'VES-ZB-DOR-25',
+        model: 'VES-ZB-DOR-025',
         vendor: 'Vesternet',
         description: 'Zigbee door and window Sensor',
         fromZigbee: [fz.ias_enroll, fz.ias_contact_alarm_1, fz.battery],

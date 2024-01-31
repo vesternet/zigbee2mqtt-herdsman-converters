@@ -9,7 +9,7 @@ const ea = exposes.access;
 
 const definition = {
     fingerprint: [{modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.01'}, {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.1'}, {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.04'}],
-    model: 'VES-ZB-TEM-27',
+    model: 'VES-ZB-TEM-027',
     vendor: 'Vesternet',
     description: 'Zigbee temperature and humidity sensor',
     fromZigbee: [fz.temperature, fz.humidity, fz.battery],
