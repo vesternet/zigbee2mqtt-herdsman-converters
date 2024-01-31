@@ -12,7 +12,7 @@ const definition = {
         model: 'VES-ZB-PIR-021',
         vendor: 'Vesternet',
         description: 'Zigbee motion sensor',
-        fromZigbee: [fz.ias_enroll, fz.ias_contact_alarm_1, fz.battery],
+        fromZigbee: [fz.ias_enroll, fz.ias_occupancy_alarm_1, fz.battery],
         exposes: [e.occupancy(), e.tamper(), e.battery()],
         toZigbee: [],
         whiteLabel: [{vendor: 'HZC Electric', model: 'S902M-ZG'}],
