@@ -16,8 +16,8 @@ const vesternet = {
             convert: (model, msg, publish, options, meta) => {
                 const payload = {};
                 if (msg.data.hasOwnProperty('batteryPercentageRemaining') && (msg.data['batteryPercentageRemaining'] < 255)) {
-                    //older firmware versions reported 0 - 100 so don't need percentage dividing
-                    //newer firmware versions report 0 - 200 so do need percentage dividing
+                    // older firmware versions reported 0 - 100 so don't need percentage dividing
+                    // newer firmware versions report 0 - 200 so do need percentage dividing
                     let dontDividePercentage = true;
                     if (meta.device.softwareBuildID == "2.7.6_r25") {
                         dontDividePercentage = false;

@@ -20,7 +20,7 @@ const definition = {
             const endpoint = device.getEndpoint(1);
             await reporting.bind(endpoint, coordinatorEndpoint, ['ssIasZone', 'genPowerCfg']);
             await endpoint.read('ssIasZone', ['iasCieAddr', 'zoneState', 'zoneId']);
-            await reporting.batteryPercentageRemaining(endpoint, {min: 3600, max: 7200});        
+            await reporting.batteryPercentageRemaining(endpoint, {min: 600, max: 21600, change: 2});        
         },
     };
 

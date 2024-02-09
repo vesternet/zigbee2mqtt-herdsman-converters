@@ -21,7 +21,7 @@ const definition = {
         await reporting.bind(endpoint, coordinatorEndpoint, ['msTemperatureMeasurement', 'msRelativeHumidity', 'genPowerCfg']);
         await reporting.temperature(endpoint, {min: 60, max: 1800, change: 100});
         await reporting.humidity(endpoint, {min: 60, max: 1800, change: 100});
-        await reporting.batteryPercentageRemaining(endpoint, {min: 3600, max: 7200});        
+        await reporting.batteryPercentageRemaining(endpoint, {min: 600, max: 21600, change: 2});        
     },
 };
 
