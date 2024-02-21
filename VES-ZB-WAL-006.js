@@ -18,9 +18,9 @@ const vesternet = {
                 if (msg.data.hasOwnProperty('batteryPercentageRemaining') && (msg.data['batteryPercentageRemaining'] < 255)) {
                     // older firmware versions reported 0 - 100 so don't need percentage dividing
                     // newer firmware versions report 0 - 200 so do need percentage dividing
-                    let dontDividePercentage = true;
-                    if (meta.device.softwareBuildID == "2.7.6_r25") {
-                        dontDividePercentage = false;
+                    let dontDividePercentage = false;
+                    if (meta.device.softwareBuildID == "2.5.3_r20") {
+                        dontDividePercentage = true;
                     }
                     let percentage = msg.data['batteryPercentageRemaining'];
                     percentage = dontDividePercentage ? percentage : percentage / 2;
@@ -45,8 +45,15 @@ const definition = {
     meta: {multiEndpoint: true, battery: {dontDividePercentage: true}},
     whiteLabel: [{vendor: 'Sunricher', model: 'SR-ZG9001K2-DIM2'}],
     configure: async (device, coordinatorEndpoint, logger) => {
-        await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ['genOnOff', 'genLevelCtrl', 'genPowerCfg']);
-        await reporting.batteryPercentageRemaining(device.getEndpoint(1));
+        const endpoint = device.getEndpoint(1);
+        await reporting.bind(endpoint, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl', 'genPowerCfg']);
+        let batterychange = 2;
+        if (device && device.softwareBuildID == "2.5.3_r20") {
+            // older firmware versions reported 0 - 100 so change needs to be 1 for 1 percent
+            // newer firmware versions report 0 - 200 so change needs to be 2 for 1 percent
+            batterychange = 1;
+        }
+        await reporting.batteryPercentageRemaining(endpoint, {min: 600, max: 21600, change: batterychange});
     },
 };
 

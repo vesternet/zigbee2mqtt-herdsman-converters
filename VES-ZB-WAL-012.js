@@ -18,9 +18,9 @@ const vesternet = {
                 if (msg.data.hasOwnProperty('batteryPercentageRemaining') && (msg.data['batteryPercentageRemaining'] < 255)) {
                     // older firmware versions reported 0 - 100 so don't need percentage dividing
                     // newer firmware versions report 0 - 200 so do need percentage dividing
-                    let dontDividePercentage = true;
-                    if (meta.device.softwareBuildID == "2.7.6_r25") {
-                        dontDividePercentage = false;
+                    let dontDividePercentage = false;
+                    if (meta.device.softwareBuildID == "2.5.3_r20") {
+                        dontDividePercentage = true;
                     }
                     let percentage = msg.data['batteryPercentageRemaining'];
                     percentage = dontDividePercentage ? percentage : percentage / 2;
@@ -48,11 +48,21 @@ const definition = {
     meta: {multiEndpoint: true, battery: {dontDividePercentage: true}},
     whiteLabel: [{vendor: 'Sunricher', model: 'SR-ZG9001K8-DIM'}],
     configure: async (device, coordinatorEndpoint, logger) => {
-        await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ['genOnOff', 'genLevelCtrl', 'genPowerCfg']);
-        await reporting.bind(device.getEndpoint(2), coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
-        await reporting.bind(device.getEndpoint(3), coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
-        await reporting.bind(device.getEndpoint(4), coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
-        await reporting.batteryPercentageRemaining(device.getEndpoint(1));
+        const endpoint1 = device.getEndpoint(1);
+        const endpoint2 = device.getEndpoint(2);
+        const endpoint3 = device.getEndpoint(3);
+        const endpoint4 = device.getEndpoint(4);
+        await reporting.bind(endpoint1, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl', 'genPowerCfg']);
+        await reporting.bind(endpoint2, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
+        await reporting.bind(endpoint3, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
+        await reporting.bind(endpoint4, coordinatorEndpoint, ['genOnOff', 'genLevelCtrl']);
+        let batterychange = 2;
+        if (device && device.softwareBuildID == "2.5.3_r20") {
+            // older firmware versions reported 0 - 100 so change needs to be 1 for 1 percent
+            // newer firmware versions report 0 - 200 so change needs to be 2 for 1 percent
+            batterychange = 1;
+        }
+        await reporting.batteryPercentageRemaining(endpoint1, {min: 600, max: 21600, change: batterychange});
     },
 };
 
