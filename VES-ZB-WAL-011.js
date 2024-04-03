@@ -2,7 +2,7 @@ const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
 const tz = require('zigbee-herdsman-converters/converters/toZigbee');
 const exposes = require('zigbee-herdsman-converters/lib/exposes');
 const reporting = require('zigbee-herdsman-converters/lib/reporting');
-const extend = require('zigbee-herdsman-converters/lib/extend');
+const extend = require('zigbee-herdsman-converters/lib/modernExtend');
 const utils = require('zigbee-herdsman-converters/lib/utils');
 const e = exposes.presets;
 const ea = exposes.access;
@@ -34,7 +34,8 @@ const vesternet = {
 };
 
 const definition = {
-    fingerprint: [{modelID: 'ZG2833K4_EU06', softwareBuildID: '2.5.3_r20'}, {modelID: 'ZG2833K4_EU06', softwareBuildID: '2.7.6_r25'}],
+    fingerprint: [{modelID: 'ZG2833K4_EU06', softwareBuildID: '2.5.3_r20'}, 
+                    {modelID: 'ZG2833K4_EU06', softwareBuildID: '2.7.6_r25'}],
     model: 'VES-ZB-WAL-011',
     vendor: 'Vesternet',
     description: 'Zigbee wall controller - 4 button',
@@ -56,7 +57,7 @@ const definition = {
             // newer firmware versions report 0 - 200 so change needs to be 2 for 1 percent
             batterychange = 1;
         }
-        await reporting.batteryPercentageRemaining(endpoint1, {min: 600, max: 21600, change: batterychange});
+        await reporting.batteryPercentageRemaining(endpoint1, {min: 3600, max: 21600, change: batterychange});
     },
 };
 
