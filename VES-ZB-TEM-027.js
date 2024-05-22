@@ -3,9 +3,9 @@ const tz = require('zigbee-herdsman-converters/converters/toZigbee');
 const exposes = require('zigbee-herdsman-converters/lib/exposes');
 const reporting = require('zigbee-herdsman-converters/lib/reporting');
 const extend = require('zigbee-herdsman-converters/lib/modernExtend');
+const ota = require('zigbee-herdsman-converters/lib/ota');
 const e = exposes.presets;
 const ea = exposes.access;
-
 
 const definition = {
     fingerprint: [{modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.01'}, 
@@ -14,13 +14,17 @@ const definition = {
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.07'},
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.08'},
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.09'},
-                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.10'}],
+                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.10'},
+                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.11'},
+                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.12'},
+                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.13'}],
     model: 'VES-ZB-TEM-027',
     vendor: 'Vesternet',
     description: 'Zigbee temperature and humidity sensor',
     fromZigbee: [fz.temperature, fz.humidity, fz.battery],
     exposes: [e.temperature(), e.humidity(), e.battery()],
     toZigbee: [],
+    ota: ota.zigbeeOTA,
     whiteLabel: [{vendor: 'HZC Electric', model: 'S093TH-ZG'}],
     configure: async (device, coordinatorEndpoint, logger) => {
         const endpoint = device.getEndpoint(1);
