@@ -35,7 +35,8 @@ const vesternet = {
 
 const definition = {
     fingerprint: [{modelID: 'ZGRC-KEY-013', softwareBuildID: '2.5.3_r20'}, 
-                    {modelID: 'ZGRC-KEY-013', softwareBuildID: '2.7.6_r25'}],
+                    {modelID: 'ZGRC-KEY-013', softwareBuildID: '2.7.6_r25'},
+                    {modelID: 'ZGRC-KEY-013', softwareBuildID: '2.7.6_r27'}],
     model: 'VES-ZB-REM-013',
     vendor: 'Vesternet',
     description: 'Zigbee remote control - 12 button',
