@@ -1,11 +1,9 @@
 const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
-const tz = require('zigbee-herdsman-converters/converters/toZigbee');
 const exposes = require('zigbee-herdsman-converters/lib/exposes');
 const reporting = require('zigbee-herdsman-converters/lib/reporting');
-const extend = require('zigbee-herdsman-converters/lib/modernExtend');
 const utils = require('zigbee-herdsman-converters/lib/utils');
+const gs = require('zigbee-herdsman-converters/lib/store');
 const e = exposes.presets;
-const ea = exposes.access;
 
 
 const vesternet = { 
@@ -29,6 +27,42 @@ const vesternet = {
 
                 return payload;
             },
+        },
+        button_map_level: {
+            cluster: 'genLevelCtrl',
+            type: ['commandMove', 'commandMoveWithOnOff', 'commandStop', 'commandStopWithOnOff'],
+            convert: (model, msg, publish, options, meta) => {
+                if (utils.hasAlreadyProcessedMessage(msg, model)) return;
+                let button_number = 'unknown';
+                let button_action = 'unknown';
+                if (msg.type == 'commandMove' || msg.type == 'commandMoveWithOnOff') {
+                    const direction = msg.data.movemode === 1 ? 'down' : 'up';
+                    button_number = direction == 'up' ? (Number(msg.endpoint.ID * 2)) - 1 : (Number(msg.endpoint.ID) * 2)            
+                    gs.putValue(msg.endpoint, 'previous_direction', direction);
+                    button_action = '_hold';
+                }
+                else if (msg.type == 'commandStop' || msg.type == 'commandStopWithOnOff') {
+                    const previous_direction = gs.getValue(msg.endpoint, 'previous_direction')
+                    if (previous_direction !== undefined) {
+                        button_number = previous_direction == 'up' ? (Number(msg.endpoint.ID * 2)) - 1 : (Number(msg.endpoint.ID) * 2)
+                        button_action = '_release';
+                    }
+                }
+                const payload = {action: 'button_' + button_number + button_action};
+                utils.addActionGroup(payload, msg, model);
+                return payload;
+            },
+        },
+        button_map_state: {
+            cluster: 'genOnOff',
+            type: ['commandOn', 'commandOff'],
+            convert: (model, msg, publish, options, meta) => {
+                if (utils.hasAlreadyProcessedMessage(msg, model)) return;
+                const button_number = msg.type == 'commandOn' ? (Number(msg.endpoint.ID * 2)) - 1 : (Number(msg.endpoint.ID) * 2)
+                const payload = {action: 'button_' + button_number + '_click'};
+                utils.addActionGroup(payload, msg, model);
+                return payload;
+            },
         }
     },
 };
@@ -39,12 +73,9 @@ const definition = {
     model: 'VES-ZB-WAL-012',
     vendor: 'Vesternet',
     description: 'Zigbee wall controller - 8 button',
-    fromZigbee: [fz.command_on, fz.command_off, fz.command_move, fz.command_stop, vesternet.fz.battery, fz.ignore_genOta],
+    fromZigbee: [vesternet.fz.button_map_level, vesternet.fz.button_map_state, vesternet.fz.battery, fz.ignore_genOta],
     exposes: [e.battery(), e.action([
-        'on_1', 'off_1', 'stop_1', 'brightness_move_up_1', 'brightness_move_down_1', 'brightness_stop_1',
-        'on_2', 'off_2', 'stop_2', 'brightness_move_up_2', 'brightness_move_down_2', 'brightness_stop_2',
-        'on_3', 'off_3', 'stop_3', 'brightness_move_up_3', 'brightness_move_down_3', 'brightness_stop_3',
-        'on_4', 'off_4', 'stop_4', 'brightness_move_up_4', 'brightness_move_down_4', 'brightness_stop_4'])],
+        'button_1_click', 'button_1_hold', 'button_1_release', 'button_2_click', 'button_2_hold', 'button_2_release', 'button_3_click', 'button_3_hold', 'button_3_release', 'button_4_click', 'button_4_hold', 'button_4_release', 'button_5_click', 'button_5_hold', 'button_5_release', 'button_6_click', 'button_6_hold', 'button_6_release', 'button_7_click', 'button_7_hold', 'button_7_release', 'button_8_click', 'button_8_hold', 'button_8_release'])],
     toZigbee: [],
     meta: {multiEndpoint: true, battery: {dontDividePercentage: true}},
     whiteLabel: [{vendor: 'Sunricher', model: 'SR-ZG9001K8-DIM'}],
