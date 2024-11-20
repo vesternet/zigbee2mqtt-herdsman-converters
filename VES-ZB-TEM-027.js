@@ -1,15 +1,12 @@
 const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
-const tz = require('zigbee-herdsman-converters/converters/toZigbee');
 const exposes = require('zigbee-herdsman-converters/lib/exposes');
 const reporting = require('zigbee-herdsman-converters/lib/reporting');
-const extend = require('zigbee-herdsman-converters/lib/modernExtend');
 const ota = require('zigbee-herdsman-converters/lib/ota');
 const e = exposes.presets;
-const ea = exposes.access;
 
 const definition = {
-    fingerprint: [{modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.01'}, 
-                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.1'}, 
+    fingerprint: [{modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.01'},
+                    {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.1'},
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.04'},
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.07'},
                     {modelID: 'TempAndHumSensor-ZB3.0', softwareBuildID: '2.08'},
@@ -30,8 +27,11 @@ const definition = {
         const endpoint = device.getEndpoint(1);
         await reporting.bind(endpoint, coordinatorEndpoint, ['msTemperatureMeasurement', 'msRelativeHumidity', 'genPowerCfg']);
         await reporting.temperature(endpoint, {min: 60, max: 1800, change: 100});
+        await endpoint.read('msTemperatureMeasurement', ['measuredValue']);
         await reporting.humidity(endpoint, {min: 60, max: 1800, change: 100});
-        await reporting.batteryPercentageRemaining(endpoint, {min: 3600, max: 21600, change: 2});        
+        await endpoint.read('msRelativeHumidity', ['measuredValue']);
+        await reporting.batteryPercentageRemaining(endpoint, {min: 3600, max: 21600, change: 2});
+        await endpoint.read('genPowerCfg', ['batteryPercentageRemaining']);
     },
 };
 
