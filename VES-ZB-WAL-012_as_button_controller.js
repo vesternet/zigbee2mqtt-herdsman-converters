@@ -69,7 +69,8 @@ const vesternet = {
 
 const definition = {
     fingerprint: [{modelID: 'ZG2833K8_EU05', softwareBuildID: '2.5.3_r20'}, 
-                    {modelID: 'ZG2833K8_EU05', softwareBuildID: '2.7.6_r25'}],
+                    {modelID: 'ZG2833K8_EU05', softwareBuildID: '2.7.6_r25'},
+                    {modelID: 'ZG2833K8_EU05', softwareBuildID: '2.7.6_r27'}],
     model: 'VES-ZB-WAL-012',
     vendor: 'Vesternet',
     description: 'Zigbee wall controller - 8 button',
